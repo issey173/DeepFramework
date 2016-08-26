@@ -24,7 +24,7 @@ class Sample:
         They can be either collections or single objects. For 'non-primitive' types it is recomended to use classes
         that extend from Value, as this is the interface used to obtain 'numeric data' from these complex objects
         """
-        
+
         self.inputs = inputs
         self.outputs = outputs
 
@@ -38,18 +38,28 @@ class Sample:
     def _get_data(elems):
         """Obtains the data from the elements given, using the interface Value for complex items."""
 
-        try:
-            # Collection of items extending from Value ('complex' inputs)
-            data = [i.get_data() for i in elems]
-        except TypeError:
-            # It is not a collection but a single element
+        # If None
+        if not elems:
+            return
+
+        try:  # Collection
             try:
-                data = elems.get_data()
+                # Collection of items extending from Value ('complex' inputs)
+                data = [i.get_data() for i in elems]
             except AttributeError:
-                # elems is not a collection of Value neither a single Value
+                # Mixed collection with Value and non-Value objects
+                data = []
+                for item in elems:
+                    if isinstance(item, Value):
+                        data.append(item.get_data())
+                    else:
+                        data.append(item)
+        except TypeError:  # Single item
+            if isinstance(elems, Value):
+                # Value
+                data = elems.get_data()
+            else:
+                # Non-Value
                 data = elems
-        except AttributeError:
-            # elems is not a collection of Value neither a single Value
-            data = elems
 
         return data
