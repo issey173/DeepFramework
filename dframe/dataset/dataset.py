@@ -19,6 +19,8 @@ class Dataset(IO):
         return self._samples
 
     def add(self, samples):
+        """Add a single sample or a list of them"""
+
         if not samples:
             return
 
@@ -29,8 +31,20 @@ class Dataset(IO):
             # samples is a single item (or not Iterable)
             self._samples.append(samples)
 
-    def remove(self):
-        pass
+    def remove(self, samples):
+        """Remove a single sample or a list of them. If the sample/s is not found, an exception will be raised.
+
+        If you are removing a list of samples and one of them is not present in the dataset, all the previous samples
+        before that one will be effectively erased.
+        """
+
+        try:
+            # Samples is a collection
+            for sample in samples:
+                self._samples.remove(sample)
+        except TypeError:
+            # Samples is a single item
+            self._samples.remove(samples)
 
     def shuffle(self):
         pass
