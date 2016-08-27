@@ -2,6 +2,21 @@ from abc import ABCMeta, abstractmethod
 
 
 # noinspection PyClassHasNoInit
+class IO:
+    """Interface like class for classes that have input-output operations"""
+
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
+    def get_input(self):
+        pass
+
+    @abstractmethod
+    def get_output(self):
+        pass
+
+
+# noinspection PyClassHasNoInit
 class Value:
     """Interface like class for all the classes that are meant to be part of a sample (input or output)"""
 
@@ -13,7 +28,7 @@ class Value:
         pass
 
 
-class Sample:
+class Sample(IO):
     """Base class to hold the information of an example/sample in a dataset"""
 
     __metaclass__ = ABCMeta
