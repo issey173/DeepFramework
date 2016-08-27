@@ -40,14 +40,24 @@ class Sample(IO):
         that extend from Value, as this is the interface used to obtain 'numeric data' from these complex objects
         """
 
-        self.inputs = inputs
-        self.outputs = outputs
+        self._inputs = inputs
+        self._outputs = outputs
 
     def get_input(self):
-        return self._get_data(self.inputs)
+        """Get the formatted input, the actual data"""
+        return self._get_data(self._inputs)
+
+    def get_exact_inputs(self):
+        """Get the exact inputs that were given in creation time (in the constructor) as they are"""
+        return self._inputs
 
     def get_output(self):
-        return self._get_data(self.outputs)
+        """Get the formatted output, the actual data"""
+        return self._get_data(self._outputs)
+
+    def get_exact_outputs(self):
+        """Get the exact outputs that were given in creation time (in the constructor) as they are"""
+        return self._outputs
 
     @staticmethod
     def _get_data(elems):

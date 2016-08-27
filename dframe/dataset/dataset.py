@@ -9,12 +9,25 @@ class Dataset(IO):
         instances of subclasses"""
 
         if samples:
-            self.samples = samples
+            if not isinstance(samples, list):
+                raise TypeError('The parameter samples must be a list or a subclass of list')
+            self._samples = samples
         else:
-            self.samples = []
+            self._samples = []
 
-    def add(self):
-        pass
+    def get_samples(self):
+        return self._samples
+
+    def add(self, samples):
+        if not samples:
+            return
+
+        try:
+            # samples is a collection (actually an Iterable)
+            self._samples.extend(samples)
+        except TypeError:
+            # samples is a single item (or not Iterable)
+            self._samples.append(samples)
 
     def remove(self):
         pass
