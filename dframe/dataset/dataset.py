@@ -1,3 +1,5 @@
+import random
+
 from dframe.dataset.sample import IO
 
 
@@ -47,7 +49,7 @@ class Dataset(IO):
             self._samples.remove(samples)
 
     def shuffle(self):
-        pass
+        random.shuffle(self._samples)
 
     def get_input(self):
         pass

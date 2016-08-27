@@ -4,7 +4,6 @@ from dframe.dataset.dataset import Dataset
 
 
 class DatasetTest(unittest.TestCase):
-
     # ------------------- Init ----------------------
     def test_construct_given_none_should_initialize_samples_as_list(self):
         sut = Dataset()
