@@ -51,8 +51,35 @@ class Dataset(IO):
     def shuffle(self):
         random.shuffle(self._samples)
 
-    def get_input(self):
-        pass
+    def get_input(self, axis_samples=True):
+        """Return the whole dataset input.
+
+        This input is an array with the input of all of its samples. It is responsability of the user to make sure that
+        all samples have the same number of inputs, otherwise the returned array will not match with its samples. In
+        some specific cases the method can raise a ValueError to notify of this inconsistency, but you should not
+        depend on that as this will not always be the case. A consistency check is not performed to avoid unnecessary
+        overhead with large datasets
+
+        Args:
+            axis_samples (bool): If true, the first axis of the returned array will be the sample index (input[0]
+                will be the input of the first sample). Otherwise, the first axis will be the input (input[0] will be
+                a list with all the first inputs of all the samples)
+        """
+
+        try:
+            if axis_samples:
+                inputs = [sample.get_input() for sample in self._samples]
+            else:
+                num_inputs = self._samples[0].num_inputs
+                inputs = [[] for _ in range(num_inputs)]
+                map(lambda idx, val: inputs[idx].append(val),
+                    [input_num for sample in self._samples for input_num, _ in enumerate(sample.get_input())],
+                    [sample_input for sample in self._samples for sample_input in sample.get_input()])
+            return inputs
+        except AttributeError:
+            raise TypeError('Some of the samples are not an instance or subclass of dframe.dataset.sample.Sample')
+        except IndexError:
+            raise ValueError('The dataset has data inconsistency as some of it samples differ in number of inputs')
 
     def get_output(self):
         pass
@@ -64,4 +91,10 @@ class Dataset(IO):
         pass
 
     def load(self):
+        pass
+
+    def len(self):
+        return len(self._samples)
+
+    def merge(self):
         pass

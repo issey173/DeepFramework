@@ -9,7 +9,7 @@ class SampleTest(unittest.TestCase):
 
     def test_get_data_with_primitive_should_return_primitive(self):
         elem = 1
-        self.assertEqual(elem, Sample._get_data(elem))
+        self.assertEqual([elem], Sample._get_data(elem))
 
     def test_get_data_with_list_primitives_should_return_list_primitives(self):
         elems = [1, 2, 3]
@@ -18,7 +18,7 @@ class SampleTest(unittest.TestCase):
     def test_get_data_with_value_object_should_return_its_data(self):
         data = [1, 2, 3]
         elem = DummyValue(data)
-        self.assertItemsEqual(data, Sample._get_data(elem))
+        self.assertItemsEqual([data], Sample._get_data(elem))
 
     def test_get_data_with_list_value_objects_should_return_list_data(self):
         data = [1, 2, 3]

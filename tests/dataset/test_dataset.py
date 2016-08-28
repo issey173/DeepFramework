@@ -1,6 +1,7 @@
 import unittest
 
 from dframe.dataset.dataset import Dataset
+from dframe.dataset.sample import Sample
 
 
 class DatasetTest(unittest.TestCase):
@@ -70,6 +71,26 @@ class DatasetTest(unittest.TestCase):
         samples.remove(1)
         samples.remove(2)
         self.assertListEqual(samples, sut.get_samples())
+
+    # ----------------------- Get input ---------------------------
+    def test_get_input_given_invalid_samples_should_raise_exception(self):
+        sut = Dataset([1, 2, 3])
+        self.assertRaises(TypeError, sut.get_input)
+
+    def test_get_input_given_axis_samples_true_should_return_array_with_sample_as_first_axis(self):
+        samples = [Sample([1, 2], 1), Sample([3, 4], 3)]
+        sut = Dataset(samples)
+        self.assertListEqual([[1, 2], [3, 4]], sut.get_input(axis_samples=True))
+
+    def test_get_input_given_axis_samples_false_should_return_array_with_input_as_first_axis(self):
+        samples = [Sample([1, 2], 1), Sample([3, 4], 3)]
+        sut = Dataset(samples)
+        self.assertListEqual([[1, 3], [2, 4]], sut.get_input(axis_samples=False))
+
+    def test_get_input_given_axis_samples_false_and_inconsisten_samples_should_raise_exception(self):
+        samples = [Sample(1, 1), Sample([3, 4], 3)]
+        sut = Dataset(samples)
+        self.assertRaises(ValueError, sut.get_input, False)
 
 
 if __name__ == '__main__':
