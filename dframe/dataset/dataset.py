@@ -51,8 +51,8 @@ class Dataset(IO):
     def shuffle(self):
         random.shuffle(self._samples)
 
-    def get_input(self, axis_samples=True):
-        """Return the whole dataset input.
+    def get_input(self, axis_samples=True, offset=0, num_elems=None):
+        """Return the dataset input.
 
         This input is an array with the input of all of its samples. It is responsability of the user to make sure that
         all samples have the same number of inputs, otherwise the returned array will not match with its samples. In
@@ -64,25 +64,35 @@ class Dataset(IO):
             axis_samples (bool): If true, the first axis of the returned array will be the sample index (input[0]
                 will be the inputs of the first sample). Otherwise, the first axis will be the input (input[0] will be
                 a list with the first input of all samples)
+            offset (int): The offset of the chunk of dataset to retrieve the input from. Default is 0
+            num_elems (int): The size of the chunk. If not specified, it will be all the elements from the offset until
+                the end
         """
+
+        end = self.len()
+        if num_elems is not None:
+            end = offset + num_elems
 
         try:
             if axis_samples:
-                inputs = [sample.get_input() for sample in self._samples]
+                inputs = [sample.get_input() for sample in self._samples[offset:end]]
             else:
                 num_inputs = self._samples[0].num_inputs
                 inputs = [[] for _ in range(num_inputs)]
-                map(lambda idx, val: inputs[idx].append(val),
-                    [input_num for sample in self._samples for input_num, _ in enumerate(sample.get_input())],
-                    [sample_input for sample in self._samples for sample_input in sample.get_input()])
+                map(
+                    lambda idx, val: inputs[idx].append(val),
+                    [input_num for sample in self._samples[offset:end] for input_num, _ in
+                     enumerate(sample.get_input())],
+                    [sample_input for sample in self._samples[offset:end] for sample_input in sample.get_input()]
+                )
             return inputs
         except AttributeError:
             raise TypeError('Some of the samples are not an instance or subclass of dframe.dataset.sample.Sample')
         except IndexError:
             raise ValueError('The dataset has data inconsistency as some of it samples differ in number of inputs')
 
-    def get_output(self, axis_samples=True):
-        """Return the whole dataset output.
+    def get_output(self, axis_samples=True, offset=0, num_elems=None):
+        """Return the dataset output.
 
         This output is an array with the output of all of its samples. It is responsability of the user to make sure
         that all samples have the same number of outputs, otherwise the returned array will not match with its samples.
@@ -94,17 +104,27 @@ class Dataset(IO):
             axis_samples (bool): If true, the first axis of the returned array will be the sample index (output[0]
                 will be the outputs of the first sample). Otherwise, the first axis will be the output (output[0] will
                 be a list with the first output of all samples)
+            offset (int): The offset of the chunk of dataset to retrieve the input from. Default is 0
+            num_elems (int): The size of the chunk. If not specified, it will be all the elements from the offset until
+                the end
         """
+
+        end = self.len()
+        if num_elems is not None:
+            end = offset + num_elems
 
         try:
             if axis_samples:
-                outputs = [sample.get_output() for sample in self._samples]
+                outputs = [sample.get_output() for sample in self._samples[offset:end]]
             else:
                 num_outputs = self._samples[0].num_outputs
                 outputs = [[] for _ in range(num_outputs)]
-                map(lambda idx, val: outputs[idx].append(val),
-                    [output_num for sample in self._samples for output_num, _ in enumerate(sample.get_output())],
-                    [sample_output for sample in self._samples for sample_output in sample.get_output()])
+                map(
+                    lambda idx, val: outputs[idx].append(val),
+                    [output_num for sample in self._samples[offset:end] for output_num, _ in
+                     enumerate(sample.get_output())],
+                    [sample_output for sample in self._samples[offset:end] for sample_output in sample.get_output()]
+                )
             return outputs
         except AttributeError:
             raise TypeError('Some of the samples are not an instance or subclass of dframe.dataset.sample.Sample')

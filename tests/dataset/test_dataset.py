@@ -92,6 +92,16 @@ class DatasetTest(unittest.TestCase):
         sut = Dataset(samples)
         self.assertRaises(ValueError, sut.get_input, False)
 
+    def test_get_input_given_offset_should_return_array_without_offset_first_elems(self):
+        samples = [Sample(1, None), Sample(2, None), Sample(3, None), Sample(4, None), Sample(5, None)]
+        sut = Dataset(list(samples))
+        self.assertListEqual([[2], [3], [4], [5]], sut.get_input(offset=1))
+
+    def test_get_input_given_offset_and_num_elems_should_return_chunked_array(self):
+        samples = [Sample(1, None), Sample(2, None), Sample(3, None), Sample(4, None), Sample(5, None)]
+        sut = Dataset(list(samples))
+        self.assertListEqual([[2], [3], [4]], sut.get_input(offset=1, num_elems=3))
+
     # ----------------------- Get output ---------------------------
     def test_get_output_given_invalid_samples_should_raise_exception(self):
         sut = Dataset([1, 2, 3])
@@ -111,6 +121,16 @@ class DatasetTest(unittest.TestCase):
         samples = [Sample(1, 1), Sample(3, [3, 4])]
         sut = Dataset(samples)
         self.assertRaises(ValueError, sut.get_output, False)
+
+    def test_get_output_given_offset_should_return_array_without_offset_first_elems(self):
+        samples = [Sample(None, 1), Sample(None, 2), Sample(None, 3), Sample(None, 4), Sample(None, 5)]
+        sut = Dataset(list(samples))
+        self.assertListEqual([[2], [3], [4], [5]], sut.get_output(offset=1))
+
+    def test_get_output_given_offset_and_num_elems_should_return_chunked_array(self):
+        samples = [Sample(None, 1), Sample(None, 2), Sample(None, 3), Sample(None, 4), Sample(None, 5)]
+        sut = Dataset(list(samples))
+        self.assertListEqual([[2], [3], [4]], sut.get_output(offset=1, num_elems=3))
 
 
 if __name__ == '__main__':
