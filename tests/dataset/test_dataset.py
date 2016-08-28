@@ -92,6 +92,26 @@ class DatasetTest(unittest.TestCase):
         sut = Dataset(samples)
         self.assertRaises(ValueError, sut.get_input, False)
 
+    # ----------------------- Get output ---------------------------
+    def test_get_output_given_invalid_samples_should_raise_exception(self):
+        sut = Dataset([1, 2, 3])
+        self.assertRaises(TypeError, sut.get_output)
+
+    def test_get_output_given_axis_samples_true_should_return_array_with_sample_as_first_axis(self):
+        samples = [Sample(1, [1, 2]), Sample(3, [3, 4])]
+        sut = Dataset(samples)
+        self.assertListEqual([[1, 2], [3, 4]], sut.get_output(axis_samples=True))
+
+    def test_get_output_given_axis_samples_false_should_return_array_with_output_as_first_axis(self):
+        samples = [Sample(1, [1, 2]), Sample(3, [3, 4])]
+        sut = Dataset(samples)
+        self.assertListEqual([[1, 3], [2, 4]], sut.get_output(axis_samples=False))
+
+    def test_get_output_given_axis_samples_false_and_inconsisten_samples_should_raise_exception(self):
+        samples = [Sample(1, 1), Sample(3, [3, 4])]
+        sut = Dataset(samples)
+        self.assertRaises(ValueError, sut.get_output, False)
+
 
 if __name__ == '__main__':
     unittest.main()

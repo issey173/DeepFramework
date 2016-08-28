@@ -62,8 +62,8 @@ class Dataset(IO):
 
         Args:
             axis_samples (bool): If true, the first axis of the returned array will be the sample index (input[0]
-                will be the input of the first sample). Otherwise, the first axis will be the input (input[0] will be
-                a list with all the first inputs of all the samples)
+                will be the inputs of the first sample). Otherwise, the first axis will be the input (input[0] will be
+                a list with the first input of all samples)
         """
 
         try:
@@ -81,8 +81,35 @@ class Dataset(IO):
         except IndexError:
             raise ValueError('The dataset has data inconsistency as some of it samples differ in number of inputs')
 
-    def get_output(self):
-        pass
+    def get_output(self, axis_samples=True):
+        """Return the whole dataset output.
+
+        This output is an array with the output of all of its samples. It is responsability of the user to make sure
+        that all samples have the same number of outputs, otherwise the returned array will not match with its samples.
+        In some specific cases the method can raise a ValueError to notify of this inconsistency, but you should not
+        depend on that as this will not always be the case. A consistency check is not performed to avoid unnecessary
+        overhead with large datasets
+
+        Args:
+            axis_samples (bool): If true, the first axis of the returned array will be the sample index (output[0]
+                will be the outputs of the first sample). Otherwise, the first axis will be the output (output[0] will
+                be a list with the first output of all samples)
+        """
+
+        try:
+            if axis_samples:
+                outputs = [sample.get_output() for sample in self._samples]
+            else:
+                num_outputs = self._samples[0].num_outputs
+                outputs = [[] for _ in range(num_outputs)]
+                map(lambda idx, val: outputs[idx].append(val),
+                    [output_num for sample in self._samples for output_num, _ in enumerate(sample.get_output())],
+                    [sample_output for sample in self._samples for sample_output in sample.get_output()])
+            return outputs
+        except AttributeError:
+            raise TypeError('Some of the samples are not an instance or subclass of dframe.dataset.sample.Sample')
+        except IndexError:
+            raise ValueError('The dataset has data inconsistency as some of it samples differ in number of outputs')
 
     def batch_generator(self):
         pass
