@@ -66,7 +66,7 @@ class Dataset(IO):
                 a list with the first input of all samples)
             offset (int): The offset of the chunk of dataset to retrieve the input from. Default is 0
             num_elems (int): The size of the chunk. If not specified, it will be all the elements from the offset until
-                the end
+                the end. This will also be the maximum, if more than len-offset elements are specified
         """
 
         end = self.len()
@@ -106,7 +106,7 @@ class Dataset(IO):
                 be a list with the first output of all samples)
             offset (int): The offset of the chunk of dataset to retrieve the input from. Default is 0
             num_elems (int): The size of the chunk. If not specified, it will be all the elements from the offset until
-                the end
+                the end. This will also be the maximum, if more than len-offset elements are specified
         """
 
         end = self.len()
@@ -131,8 +131,21 @@ class Dataset(IO):
         except IndexError:
             raise ValueError('The dataset has data inconsistency as some of it samples differ in number of outputs')
 
-    def batch_generator(self):
-        pass
+    def batch_generator(self, batch_size, shuffle=True):
+        batch_start = 0
+        while True:
+            # Get and yield the batch
+            inputs = self.get_input(axis_samples=False, offset=batch_start, num_elems=batch_size)
+            outputs = self.get_output(axis_samples=False, offset=batch_start, num_elems=batch_size)
+            yield (inputs, outputs)
+
+            # Update the counters
+            batch_start += batch_size
+            if batch_start >= self.len():
+                # End of epoch - begining of the next one (first batch)
+                batch_start = 0
+                if shuffle:
+                    self.shuffle()
 
     def save(self):
         pass
