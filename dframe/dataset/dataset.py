@@ -169,6 +169,9 @@ class Dataset(IO):
         else:
             return self.__add__(other)
 
+    def __iter__(self):
+        return self._samples.__iter__()
+
     def save(self):
         pass
 
