@@ -132,6 +132,58 @@ class DatasetTest(unittest.TestCase):
         sut = Dataset(list(samples))
         self.assertListEqual([[2], [3], [4]], sut.get_output(offset=1, num_elems=3))
 
+    # ------------------------------ Merge ----------------------------------
+    def test_merge_given_non_dataset_should_raise_exception(self):
+        sut = Dataset()
+        self.assertRaises(TypeError, sut.merge, 'no dataset')
+
+    def test_merge_given_dataset_should_extend_original_dataset_with_given_one(self):
+        samples_sut = [Sample(1, 1), Sample(2, 2)]
+        samples_dataset = [Sample(3, 3), Sample(4, 4)]
+        sut = Dataset(list(samples_sut))
+        dataset = Dataset(list(samples_dataset))
+        sut.merge(dataset)
+        samples_sut.extend(samples_dataset)
+        self.assertListEqual(samples_sut, sut.get_samples())
+
+    # ---------------------------- Add Operator --------------------------
+    def test_add_operator_with_non_dataset_should_raise_exception(self):
+        sut = Dataset()
+        self.assertRaises(TypeError, sut.__add__, 1)
+
+    def test_add_operator_with_datasets_should_return_new_dataset_instance(self):
+        d1 = Dataset()
+        d2 = Dataset()
+        d3 = d1 + d2
+        self.assertIsInstance(d3, Dataset)
+        self.assertNotEqual(d3, d1)
+        self.assertNotEqual(d3, d2)
+
+    def test_add_operator_with_datasets_should_return_dataset_with_all_samples(self):
+        s1 = [Sample(1, 1), Sample(2, 2)]
+        s2 = [Sample(3, 3), Sample(4, 4)]
+        d1 = Dataset(list(s1))
+        d2 = Dataset(list(s2))
+        d3 = d1 + d2
+        self.assertListEqual(s1 + s2, d3.get_samples())
+
+    # ------------------------ Reverse Add Operator -------------------------
+    def test_radd_operator_with_datasets_should_return_new_dataset_instance(self):
+        d1 = Dataset()
+        d2 = Dataset()
+        d3 = sum([d1, d2])
+        self.assertIsInstance(d3, Dataset)
+        self.assertNotEqual(d3, d1)
+        self.assertNotEqual(d3, d2)
+
+    def test_radd_operator_with_datasets_should_return_dataset_with_all_samples(self):
+        s1 = [Sample(1, 1), Sample(2, 2)]
+        s2 = [Sample(3, 3), Sample(4, 4)]
+        d1 = Dataset(list(s1))
+        d2 = Dataset(list(s2))
+        d3 = sum([d1, d2])
+        self.assertListEqual(s1 + s2, d3.get_samples())
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -147,14 +147,30 @@ class Dataset(IO):
                 if shuffle:
                     self.shuffle()
 
+    def len(self):
+        return len(self._samples)
+
+    def merge(self, dataset):
+        """Shortcut to extend this dataset with the samples from the given one"""
+        try:
+            self.add(dataset.get_samples())
+        except AttributeError:
+            raise TypeError('The object you provided is not a Dataset (dframe.dataset.dataset.Dataset)')
+
+    def __add__(self, other):
+        try:
+            return Dataset(self._samples + other.get_samples())
+        except AttributeError:
+            raise TypeError('A dataset cannot be added with \'' + type(other).__name__ + '\'')
+
+    def __radd__(self, other):
+        if other == 0:
+            return self
+        else:
+            return self.__add__(other)
+
     def save(self):
         pass
 
     def load(self):
-        pass
-
-    def len(self):
-        return len(self._samples)
-
-    def merge(self):
         pass
