@@ -171,9 +171,3 @@ class Dataset(IO):
 
     def __iter__(self):
         return self._samples.__iter__()
-
-    def save(self):
-        pass
-
-    def load(self):
-        pass
