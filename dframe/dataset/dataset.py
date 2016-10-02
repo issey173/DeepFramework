@@ -127,7 +127,8 @@ class Dataset(IO):
                 )
             return outputs
         except AttributeError:
-            raise TypeError('Some of the samples are not an instance or subclass of dframe.dataset.sample.Sample')
+            raise TypeError('Some of the samples are not an instance or subclass of dframe.dataset.sample.Sample '
+                            'or they do not have output')
         except IndexError:
             raise ValueError('The dataset has data inconsistency as some of it samples differ in number of outputs')
 

@@ -123,14 +123,18 @@ class DatasetTest(unittest.TestCase):
         self.assertRaises(ValueError, sut.get_output, False)
 
     def test_get_output_given_offset_should_return_array_without_offset_first_elems(self):
-        samples = [Sample(None, 1), Sample(None, 2), Sample(None, 3), Sample(None, 4), Sample(None, 5)]
+        samples = [Sample(1, 1), Sample(1, 2), Sample(1, 3), Sample(1, 4), Sample(1, 5)]
         sut = Dataset(list(samples))
         self.assertListEqual([[2], [3], [4], [5]], sut.get_output(offset=1))
 
     def test_get_output_given_offset_and_num_elems_should_return_chunked_array(self):
-        samples = [Sample(None, 1), Sample(None, 2), Sample(None, 3), Sample(None, 4), Sample(None, 5)]
+        samples = [Sample(1, 1), Sample(1, 2), Sample(1, 3), Sample(1, 4), Sample(1, 5)]
         sut = Dataset(list(samples))
         self.assertListEqual([[2], [3], [4]], sut.get_output(offset=1, num_elems=3))
+
+    def test_get_output_without_output_samples_should_raise_exception(self):
+        sut = Dataset([Sample(1), Sample(2)])
+        self.assertRaises(TypeError, sut.get_output)
 
     # ------------------------------ Merge ----------------------------------
     def test_merge_given_non_dataset_should_raise_exception(self):

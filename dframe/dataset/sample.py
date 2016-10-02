@@ -31,7 +31,7 @@ class Value:
 class Sample(IO):
     """Base class to hold the information of an example/sample in a dataset"""
 
-    def __init__(self, inputs, outputs):
+    def __init__(self, inputs, outputs=None):
         """Creates a sample out of its inputs and outputs.
 
         They can be either collections or single objects. For 'non-primitive' types it is recomended to use classes
@@ -44,6 +44,9 @@ class Sample(IO):
             - Sample([1, 2, 3], None) -> sample with 3 inputs with values 1, 2 and 3 respectively
             - Sample([[1, 2, 3]], None) -> sample with a single input which is a collection of three values
         """
+
+        if inputs is None:
+            raise ValueError('A sample must have some input data')
 
         self._inputs = inputs
         self._outputs = outputs
@@ -65,8 +68,12 @@ class Sample(IO):
     def get_output(self):
         """Get the formatted output, the actual data.
 
-        It will always return a list with as many items as outputs, each one holding the data of its output
+        If the sample has ouputs, it will return a list with as many items as outputs, each one holding the data of
+        its output. Otherwise will raise an error as to sample do not have ouputs to get data from
         """
+
+        if self._outputs is None:
+            raise AttributeError('This sample has no output/s')
         return self._get_data(self._outputs)
 
     def get_exact_outputs(self):

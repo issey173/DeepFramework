@@ -4,6 +4,16 @@ from dframe.dataset.sample import Sample, Value
 
 
 class SampleTest(unittest.TestCase):
+    # ----------------------- Construct ---------------------------
+    def test_construct_sample_with_none_inputs_should_raise_exception(self):
+        self.assertRaises(ValueError, Sample, None)
+
+    # ----------------------- Get output ---------------------------
+    def test_get_output_without_output_should_raise_exception(self):
+        sample = Sample(1)
+        self.assertRaises(AttributeError, sample.get_output)
+
+    # ----------------------- Get data ---------------------------
     def test_get_data_with_none_should_return_none(self):
         self.assertIsNone(Sample._get_data(None))
 
