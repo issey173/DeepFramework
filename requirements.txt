@@ -1,0 +1,5 @@
+coverage==4.2
+-e git+https://github.com/issey173/deepframework.git@9bb7e056ead30eed11d3b10c29e2efd5e5b814e9#egg=DeepFramework
+h5py==2.6.0
+numpy==1.11.1
+six==1.10.0
