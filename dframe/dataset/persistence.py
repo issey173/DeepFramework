@@ -1,3 +1,4 @@
+import cPickle
 import os
 from abc import ABCMeta, abstractmethod
 
@@ -55,7 +56,8 @@ class H5pyPersistenceManager(PersistenceManager):
     """Persistence manager that will save/load the dataset using HDF5.
 
     Note that with this manager, only the actual data is persisted and thus the load method will not be able to create
-    the dataset with its original classes. Use this for large datasets where memory is a problem."""
+    the dataset with its original classes. Use this for large datasets where memory is a problem.
+    Use PicklePersistenceManager if a full recovery is needed"""
 
     INPUT_DATASET_NAME = 'inputs'
     OUTPUT_DATASET_NAME = 'outputs'
@@ -94,6 +96,31 @@ class H5pyPersistenceManager(PersistenceManager):
                 samples = [Sample(sample_input) for sample_input in inputs]
 
             return Dataset(samples)
+
+    def supports_saving(self, dataset):
+        return isinstance(dataset, Dataset)
+
+    def supports_loading(self, path):
+        return os.path.isfile(path)
+
+
+# noinspection PyClassHasNoInit
+class PicklePersistenceManager(PersistenceManager):
+    """Persistence manager that uses cPickle as its persistence system.
+
+    This persistence manager is not as efficient as H5pyPersistenceManager but can persist and recover the dataset as
+    it is.
+    """
+
+    def save(self, dataset, path):
+        super(PicklePersistenceManager, self).save(dataset, path)
+        with open(path, 'w') as f:
+            cPickle.dump(dataset, f)
+
+    def load(self, path):
+        super(PicklePersistenceManager, self).load(path)
+        with open(path) as f:
+            return cPickle.load(f)
 
     def supports_saving(self, dataset):
         return isinstance(dataset, Dataset)
