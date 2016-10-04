@@ -58,7 +58,7 @@ class Dataset(IO):
         all samples have the same number of inputs, otherwise the returned array will not match with its samples. In
         some specific cases the method can raise a ValueError to notify of this inconsistency, but you should not
         depend on that as this will not always be the case. A consistency check is not performed to avoid unnecessary
-        overhead with large datasets
+        overhead with large datasets.
 
         Args:
             axis_samples (bool): If true, the first axis of the returned array will be the sample index (input[0]
@@ -98,7 +98,7 @@ class Dataset(IO):
         that all samples have the same number of outputs, otherwise the returned array will not match with its samples.
         In some specific cases the method can raise a ValueError to notify of this inconsistency, but you should not
         depend on that as this will not always be the case. A consistency check is not performed to avoid unnecessary
-        overhead with large datasets
+        overhead with large datasets.
 
         Args:
             axis_samples (bool): If true, the first axis of the returned array will be the sample index (output[0]
