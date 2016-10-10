@@ -23,8 +23,8 @@ class Core(Process, PackageProcessor):
         self.pipe_out = pipe_out    # The output channel. The core send the result through this pipe
 
         # Child process that listens for incoming packages through pipe_in and adds them to the processing queue.
-        # Core class acts as the consumer in this producer-consumer architecture
-        self.producer = Producer(self.pipe_in, self.queue)
+        # From the Core perspective, this is the producer of packages (the one that puts them in the processing queue)
+        self.producer = PipeConsumer(self.pipe_in, self.queue)
 
     def start(self):
         # Start the producer process before starting this one
@@ -66,11 +66,11 @@ class Core(Process, PackageProcessor):
             self.pipe_out.send(package)
 
 
-class Producer(Process):
+class PipeConsumer(Process):
     """Process that is in charge of reading a pipe and putting the incoming packages in a queue"""
 
     def __init__(self, pipe, queue):
-        super(Producer, self).__init__()
+        super(PipeConsumer, self).__init__()
         self.pipe = pipe
         self.queue = queue
 

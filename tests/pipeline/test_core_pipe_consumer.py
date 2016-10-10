@@ -2,20 +2,23 @@ import unittest
 
 from multiprocessing import Queue, Pipe
 
-from dframe.pipeline.core import Producer
+import time
+
+from dframe.pipeline.core import PipeConsumer
 
 
-class ProducerTest(unittest.TestCase):
+class PipeConsumerTest(unittest.TestCase):
     def test_run(self):
         # Create Queue and pipe
         queue = Queue()
         pipe_in, pipe_out = Pipe(duplex=False)
         # Create and start Producer
-        self.sut = Producer(pipe_in, queue)
+        self.sut = PipeConsumer(pipe_in, queue)
         self.sut.start()
         # Send package and assert that the producer has put the package in the queue
         package = 'package'
         pipe_out.send(package)
+        time.sleep(1)
         self.assertEqual(package, queue.get())
         # Send poison pill and exit
         pipe_out.send(None)
