@@ -3,3 +3,11 @@
 
 ## Vagrant
 /.vagrant/
+
+## Distribution
+# Python egg metadata, regenerated from source files by setuptools.
+/DeepFramework.egg-info/
+# Distribution folder
+/dist/
+# Compiled python modules
+*.pyc
