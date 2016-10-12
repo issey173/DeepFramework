@@ -40,9 +40,9 @@ The pipeline is in charge of connecting all the cores and of the communication w
 
 ## Installation
 
-This framwork has been uploaded to PyPI. For an easy install:
+This framework has been uploaded to PyPI. For an easy install:
 
-`pip install dframe`
+`pip install DeepFramework`
 
 ## A word about the project
 This project is in a beta state. After developing what I thought it was the main core of the framework I am releasing it so that everyone can give it a try and, most important, ptovide some feedback!
