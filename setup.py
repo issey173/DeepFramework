@@ -2,14 +2,6 @@ import setuptools
 
 import dframe
 
-
-def get_dependencies():
-    with open('requirements.txt', 'r') as f:
-        dependencies = list(f)
-        dependencies = [dependency.replace('\n', '') for dependency in dependencies]
-        return dependencies
-
-
 setuptools.setup(
     name='DeepFramework',
     version=dframe.__version__,
@@ -19,6 +11,10 @@ setuptools.setup(
     author_email='issey173@gmail.com',
     license='MIT',
     packages=['dframe'],
-    install_requires=get_dependencies(),
+    install_requires=[
+        'h5py==2.6.0',
+        'numpy==1.11.1',
+        'six==1.10.0'
+    ],
     zip_safe=False
 )
