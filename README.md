@@ -1,4 +1,6 @@
 # DeepFramework
+[![Build Status](https://travis-ci.org/issey173/DeepFramework.svg?branch=master)](https://travis-ci.org/issey173/DeepFramework)
+
 DeepFramework is an abstract layer designed to be on top of any of your deep learning projects. 
 This framework intends to provide a layer to separate your models logic (what is actually training, predicting...) from all the scripting needed to execute that, so that you can encapsulate and separate the core of your program from everything else.
 With that you can actually focus on designing your architecture and forget about all the surrounding boilerplate, and what it's more important, it will speed up your prototyping and the scaffolding of your project.
