@@ -2,6 +2,10 @@ language: python
 python:
   - "2.7"
 
+# System dependencies
+before_install:
+  - sudo apt-get install -y python-dev python-pip libhdf5-dev pkg-config
+
 # Install dependencies (DeepFramework + dependencies in setup.py)
 install:
   - pip install .
