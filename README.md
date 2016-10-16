@@ -46,6 +46,12 @@ This framework has been uploaded to PyPI. For an easy install:
 
 `pip install DeepFramework`
 
+## Next features/TODOs
+
+* Automatic deployment to PyPI using Travis CI
+* More documentation and how to use tutorial (yes, I know but... it's so boring to do)
+* Improve model package to provide a model library to manage all you models
+
 ## A word about the project
 This project is in a beta state. After developing what I thought it was the main core of the framework I am releasing it so that everyone can give it a try and, most important, ptovide some feedback!
 All of this is based on my experiences in programming deep learning projects, but as you can imagine, this is limitted, so one of the main reasons of releasing the beta is to gather opinions and suggestions from people that have worked on that longer than I am and have more experience than me.
