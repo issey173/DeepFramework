@@ -11,7 +11,7 @@ from dframe.dataset.sample import Sample
 class H5pyPersistenceManagerTest(unittest.TestCase):
     def setUp(self):
         self.sut = H5pyPersistenceManager()
-        self.file_path = '/vagrant/tests/dataset/test.h5'
+        self.file_path = './test.h5'
 
     def tearDown(self):
         if os.path.isfile(self.file_path):
@@ -49,7 +49,7 @@ class H5pyPersistenceManagerTest(unittest.TestCase):
         self.assertTrue(dataset.len() == 2)
         self.assertRaises(TypeError, dataset.get_output)
 
-    def test_load_given_existing_path_wit_input_output_should_return_dataset(self):
+    def test_load_given_existing_path_with_input_output_should_return_dataset(self):
         inputs = [[1, 2], [3, 4]]
         outputs = [[1], [3]]
         with h5py.File(self.file_path, 'w') as f:
