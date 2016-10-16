@@ -19,8 +19,8 @@ setuptools.setup(
     license='MIT',
     packages=['dframe'],
     install_requires=[
-        'h5py>=2.6.0',
         'numpy>=1.11.1',
+        'h5py>=2.6.0',
         'six>=1.10.0'
     ],
     zip_safe=False

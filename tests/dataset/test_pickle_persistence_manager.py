@@ -10,7 +10,7 @@ from dframe.dataset.sample import Sample
 class PicklePersistenceManagerTest(unittest.TestCase):
     def setUp(self):
         self.sut = PicklePersistenceManager()
-        self.file_path = '/vagrant/tests/dataset/test.p'
+        self.file_path = './test.p'
 
     def tearDown(self):
         if os.path.isfile(self.file_path):

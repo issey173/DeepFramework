@@ -9,5 +9,10 @@
 /DeepFramework.egg-info/
 # Distribution folder
 /dist/
+# Build folder
+/build/
 # Compiled python modules
 *.pyc
+
+## Tests
+/.cache/
