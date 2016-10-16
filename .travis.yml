@@ -8,7 +8,8 @@ before_install:
 
 # Install dependencies (DeepFramework + dependencies in setup.py)
 install:
+  - pip install -r requirements.txt
   - pip install .
 
 # Tests execution
-script: pytest
+script: python -m pytest tests/
