@@ -4,7 +4,7 @@ python:
 
 # System dependencies
 before_install:
-  - sudo apt-get install -y python-dev python-pip libhdf5-dev pkg-config
+  - sudo apt-get install -y python-dev python-pip libhdf5-serial-dev pkg-config
 
 # Install dependencies (DeepFramework + dependencies in setup.py)
 install:
