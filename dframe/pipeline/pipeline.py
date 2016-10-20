@@ -95,7 +95,7 @@ class Pipeline(PackageProcessor):
 
         for core_class in core_classes_map:
             # If no kwargs passed, initialize as empty object
-            if Pipeline.KEY_KWARGS not in core_classes_map:
+            if Pipeline.KEY_KWARGS not in core_class:
                 core_class[Pipeline.KEY_KWARGS] = {}
             # The input pipe of a core is the end that receives packages
             core_class[Pipeline.KEY_KWARGS]['pipe_in'] = receiver
