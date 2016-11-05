@@ -7,6 +7,7 @@ branches:
   only:
     - devel
     - master
+    - /release\/v\d*\.\d*\.\d*$/    # Any release/vX.Y.Z branch
 
 # System dependencies
 before_install:
