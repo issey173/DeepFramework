@@ -37,9 +37,9 @@ deploy:
       secure: "eDJQK9nK/bhzCdmrSi+1GpvLwuirZSiNC7RyMzIK2PD3uX+5mxSn0KyOi51iQuTLkh4l18v9esX2kvqlIZcK0jRBu+odNoC3k3plGOJ/p/+fLr2UR5FHoUpN40G85uDJn+cnsSUKpO5pmrOTyg58Pu/IvwJV8C9tC59aghoZE0HlNLHctBVvRmnsse8Z2bjJRtjeAZ89U1Vruj/kel2kiHGk+5dnHVwAHZROrDG8/6ejpDQnv6bYM5g63/u+y16LKNKNjw37nbJtGGwPMc5uFKKYcRZ/i2UytqBFaUVdt38XXQgyL9u37rqfO3+MVtzjHzcClhLPKbDr9JLj0AYUBvgE0VNONm4PVkcg8nks40PjjBbhWkspPFMTRXcJKY+FSOlIGGtCi8IcBexLNS7PRfe+Jz7MEvaEUv9Ai02jO+fDDUt0gg/0SDgwDCZdLIRct6L+SoqB/QWQVhla/RSsfUlf3YDPEWqK8BNhJ4+bOi0JDF7kVstwD3TmAOtJX0cjPfM46vqgwwfzR9TxS713uDqcgEihDm9jVC96HAJdCSKo8nKym4B6Fl4LKzquXppBxoxCVL5f2f9KoODylGTLKKP6hV4xwOGaKZpdUvr17G1YJu5vgZXDjf6UdRBRHZr7RPT4T3p6TJRiZPArXt5IeNB7WSjENCXTmYUUghPONwA="
     on:
       tags: false
-      all_branches: true
+      branch: ((release\/v\d+\.\d+\.\d+$)|(hotfix\/.+))
       repo: issey173/DeepFramework
-      condition: $TRAVIS_BRANCH =~ ((release\/v\d+\.\d+\.\d+$)|(hotfix\/.+))    # Only release and hotfix branches
+#      condition: $TRAVIS_BRANCH =~ ((release\/v\d+\.\d+\.\d+$)|(hotfix\/.+))    # Only release and hotfix branches
   # Production PyPI
   - provider: pypi
     user: issey
