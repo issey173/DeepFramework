@@ -47,6 +47,6 @@ deploy:
       branch: master
 
 after_deploy:
-  - echo: $TRAVIS_BRANCH
-  - echo: $TRAVIS_BRANCH =~ ((release\/v\d+\.\d+\.\d+$)|(hotfix\/.+))
+  - echo $TRAVIS_BRANCH
+  - echo $TRAVIS_BRANCH =~ ((release\/v\d+\.\d+\.\d+$)|(hotfix\/.+))
 
