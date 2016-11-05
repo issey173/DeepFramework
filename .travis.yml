@@ -23,6 +23,10 @@ install:
 # Tests execution
 script: python -m pytest tests/
 
+before_deploy:
+  - echo $TRAVIS_BRANCH
+  - echo $TRAVIS_BRANCH =~ ((release\/v\d+\.\d+\.\d+$)|(hotfix\/.+))
+
 # Deployment to PyPI
 deploy:
   # Test PyPI
@@ -45,8 +49,4 @@ deploy:
       tags: true
       repo: issey173/DeepFramework
       branch: master
-
-after_deploy:
-  - echo $TRAVIS_BRANCH
-  - echo $TRAVIS_BRANCH =~ ((release\/v\d+\.\d+\.\d+$)|(hotfix\/.+))
 
