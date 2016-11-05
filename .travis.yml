@@ -2,6 +2,13 @@ language: python
 python:
   - "2.7"
 
+# Build and run tests only on devel and master
+branches:
+  only:
+    - devel
+    - master
+    - /release\/v\d*\.\d*\.\d*$/    # Any release/vX.Y.Z branch
+
 # System dependencies
 before_install:
   - sudo apt-get install -y python-dev python-pip libhdf5-serial-dev pkg-config
@@ -13,3 +20,14 @@ install:
 
 # Tests execution
 script: python -m pytest tests/
+
+# Deployment to PyPI
+deploy:
+  provider: pypi
+  user: issey
+  password:
+    secure: CjwQxGrioKzyhINkB9YRcJbvLWjl8rDeCOoUvoM4PVepirwg1RGWpEhs2v/2GT50nHcg8JcSp06BjyZYfoajmz691OeMgmqdH3SO0dTspeCUQNsAF8VfWDM4EwggNtMkiglH//hfOeEiUzYLK5+u2fU7oYKDfM2EaMFD0o1Kqk+lZezssGFAiktpR+Wqmg5BS3ixRiRB9SFYD3U92M7idpjR83wVldGL2iJ80PUbJYW8gFe95IyY0/j2SmMOzmLj6Ndp8GDIvkt7/oLsHo6VDfs0mVRArJL/c8m3emtFhQ1TUuMJdAj+kK/6nUdUU1yEuDg41s1cExnYN8XL7c334bpfoldXDGSZ2MXr6qb8PhZmNSHOMiOKUHCSchPfPyenknUOz4aq2t6qyVoqryfajPSLS45X5NiK7qpEjh2LS91Uc+0/d+S5jpNipiLuml20/48YCVgcx9gm+cxoocUGj1VZqQPAkLTLzw12d2BN5cry3DqdV3ak0XwHaWRDUrIrMLI8TvOYeRo1a82TjD45lA+EMc66+zw951VdtWjvI+8OFTfcEkvbdH41aBjhcd2HacW+BPtn97aUV9wuRuUCRYaBm2RgBqz/ciyoa+nf96dxCHekuF9AAInk7QWnB3Qg7jjn7n+jbgaJDu81NtDouzxsaVjyxCCtEkrj5En9Vpg=
+  on:
+    tags: true
+    repo: issey173/DeepFramework
+    branch: master
