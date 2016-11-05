@@ -7,8 +7,9 @@ branches:
   only:
     - devel
     - master
-    - /release\/v\d*\.\d*\.\d*$/    # Any release/vX.Y.Z branch
-    - /v\d*\.\d*\.\d*$/             # Release tags
+    - /release\/v\d+\.\d+\.\d+$/    # Any release/vX.Y.Z branch
+    - /hotfix\/.+/                  # Any hotfix/* branch
+    - /v\d+\.\d+\.\d+$/             # Release tags
 
 # System dependencies
 before_install:
@@ -24,11 +25,24 @@ script: python -m pytest tests/
 
 # Deployment to PyPI
 deploy:
-  provider: pypi
-  user: issey
-  password:
-    secure: CjwQxGrioKzyhINkB9YRcJbvLWjl8rDeCOoUvoM4PVepirwg1RGWpEhs2v/2GT50nHcg8JcSp06BjyZYfoajmz691OeMgmqdH3SO0dTspeCUQNsAF8VfWDM4EwggNtMkiglH//hfOeEiUzYLK5+u2fU7oYKDfM2EaMFD0o1Kqk+lZezssGFAiktpR+Wqmg5BS3ixRiRB9SFYD3U92M7idpjR83wVldGL2iJ80PUbJYW8gFe95IyY0/j2SmMOzmLj6Ndp8GDIvkt7/oLsHo6VDfs0mVRArJL/c8m3emtFhQ1TUuMJdAj+kK/6nUdUU1yEuDg41s1cExnYN8XL7c334bpfoldXDGSZ2MXr6qb8PhZmNSHOMiOKUHCSchPfPyenknUOz4aq2t6qyVoqryfajPSLS45X5NiK7qpEjh2LS91Uc+0/d+S5jpNipiLuml20/48YCVgcx9gm+cxoocUGj1VZqQPAkLTLzw12d2BN5cry3DqdV3ak0XwHaWRDUrIrMLI8TvOYeRo1a82TjD45lA+EMc66+zw951VdtWjvI+8OFTfcEkvbdH41aBjhcd2HacW+BPtn97aUV9wuRuUCRYaBm2RgBqz/ciyoa+nf96dxCHekuF9AAInk7QWnB3Qg7jjn7n+jbgaJDu81NtDouzxsaVjyxCCtEkrj5En9Vpg=
-  on:
-    tags: true
-    repo: issey173/DeepFramework
-    branch: master
+  # Test PyPI
+  - provider: pypi
+    server: https://testpypi.python.org/pypi
+    user: issey
+    password:
+      secure: "eDJQK9nK/bhzCdmrSi+1GpvLwuirZSiNC7RyMzIK2PD3uX+5mxSn0KyOi51iQuTLkh4l18v9esX2kvqlIZcK0jRBu+odNoC3k3plGOJ/p/+fLr2UR5FHoUpN40G85uDJn+cnsSUKpO5pmrOTyg58Pu/IvwJV8C9tC59aghoZE0HlNLHctBVvRmnsse8Z2bjJRtjeAZ89U1Vruj/kel2kiHGk+5dnHVwAHZROrDG8/6ejpDQnv6bYM5g63/u+y16LKNKNjw37nbJtGGwPMc5uFKKYcRZ/i2UytqBFaUVdt38XXQgyL9u37rqfO3+MVtzjHzcClhLPKbDr9JLj0AYUBvgE0VNONm4PVkcg8nks40PjjBbhWkspPFMTRXcJKY+FSOlIGGtCi8IcBexLNS7PRfe+Jz7MEvaEUv9Ai02jO+fDDUt0gg/0SDgwDCZdLIRct6L+SoqB/QWQVhla/RSsfUlf3YDPEWqK8BNhJ4+bOi0JDF7kVstwD3TmAOtJX0cjPfM46vqgwwfzR9TxS713uDqcgEihDm9jVC96HAJdCSKo8nKym4B6Fl4LKzquXppBxoxCVL5f2f9KoODylGTLKKP6hV4xwOGaKZpdUvr17G1YJu5vgZXDjf6UdRBRHZr7RPT4T3p6TJRiZPArXt5IeNB7WSjENCXTmYUUghPONwA="
+    on:
+      tags: false
+      all_branches: true
+      repo: issey173/DeepFramework
+      condition: $TRAVIS_BRANCH =~ (release\/v[0-9]+\.[0-9]+\.[0-9]+$|hotfix\/.+)    # Only release and hotfix branches
+  # Production PyPI
+  - provider: pypi
+    user: issey
+    password:
+      secure: "jX4ld7L5ataivcaKbiwbDlm5r2cizakpvculmIeYngQYwyvVKQnSAGjbZvWAl2NJx1hnjGh8izEknk1E7+3FyJaGwMPloTYo19nmxI1n0tGLJsHPfh9Q3KjZibQ39Vn+WK7Yu/sft+Eh2Ade9x8zPA+ijG74gM7VqDIOwh1irCySGqKJsGZGXtHsSaaLRLFBj8PecoAhAv39QLifdEkpTnhzlwGpBDXZoLeqhe0KA4LlnPPLQ/FaVxbcS5/p44QWhCgcmqFQlnXnhwRiH986O0/K5sdKSk+29qTbFIgObAXnj1Iq2VOS4OTBzwKVRIKcKAyIY9Mql1Yi1zHardvPi27mj2pcftsWhFC4ksc6eRqlTKSiAKrMdQbTBJQqn9PBoxwzAFkbypW7MdZ6RPweSYP4IS4n51kOmd8BlfIiMPU+f5iMwbWDeaVG0xYH3qTc6lOPoa+MG0Sz83W1UWSAQ5T5WuMX2sZn1s65+bDogWEU17YLIoTsIYDiHXI/gpJd9T6K4oUFU+VhpTA83WiPLBrrRq3XTgD7kBPumG13UBmBfK67JBinsCi7WKya7VvUzTcECHvM9sgaYradkkmWx9P+F0Qb6dsnDVzxKBBTNRu7p2uXyofKjG6o1jPSV0nS4l2OYEPFPboZ2XnuoncmMgy5sNX7cYUun01tt4+XrJ8="
+    on:
+      tags: true
+      repo: issey173/DeepFramework
+      branch: master
+
