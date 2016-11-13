@@ -17,7 +17,7 @@ setuptools.setup(
     author='Issey Masuda Mora',
     author_email='issey173@gmail.com',
     license='MIT',
-    packages=['dframe'],
+    packages=['dframe', 'dframe.dataset', 'dframe.model', 'dframe.pipeline'],
     install_requires=[
         'numpy>=1.11.1',
         'h5py>=2.6.0',
