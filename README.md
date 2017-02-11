@@ -48,15 +48,14 @@ This framework has been uploaded to PyPI. For an easy install:
 
 ## Next features/TODOs
 
-* Automatic deployment to PyPI using Travis CI
 * More documentation and how to use tutorial (yes, I know but... it's so boring to do)
-* Improve model package to provide a model library to manage all you models
+* Improve model package to provide a model library to manage all your models
 
 ## A word about the project
-This project is in a beta state. After developing what I thought it was the main core of the framework I am releasing it so that everyone can give it a try and, most important, ptovide some feedback!
+This project is in a beta state. After developing what I thought it was the main core of the framework I am releasing it so that everyone can give it a try and, most important, provide some feedback!
 All of this is based on my experiences in programming deep learning projects, but as you can imagine, this is limitted, so one of the main reasons of releasing the beta is to gather opinions and suggestions from people that have worked on that longer than I am and have more experience than me.
-I also want to mention that coding in Python is something more or less new to me, after programming in languages such as Java, C++, PHP and Javascript mainly. It might be the case where some piece of code is not as *pythonic* as it could be, or maybe there is an efficiency improvement it can be done. 
-I would be very grateful if you could make me notice of those so I can improve this framework to something greater!
+I also want to mention that I am not a guru of Python so you might see some piece of code that it is not as *pythonic* as it could be, or maybe there is an efficiency improvement that it can be done. 
+I would be very grateful if you could make me notice of those so I can improve this framework to something greater! (or do it yourself and then send the merge request)
 
 
 
