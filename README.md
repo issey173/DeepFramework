@@ -1,4 +1,6 @@
 # DeepFramework
+[![Build Status](https://travis-ci.org/issey173/DeepFramework.svg?branch=master)](https://travis-ci.org/issey173/DeepFramework)
+
 DeepFramework is an abstract layer designed to be on top of any of your deep learning projects. 
 This framework intends to provide a layer to separate your models logic (what is actually training, predicting...) from all the scripting needed to execute that, so that you can encapsulate and separate the core of your program from everything else.
 With that you can actually focus on designing your architecture and forget about all the surrounding boilerplate, and what it's more important, it will speed up your prototyping and the scaffolding of your project.
@@ -43,6 +45,12 @@ The pipeline is in charge of connecting all the cores and of the communication w
 This framework has been uploaded to PyPI. For an easy install:
 
 `pip install DeepFramework`
+
+## Next features/TODOs
+
+* Automatic deployment to PyPI using Travis CI
+* More documentation and how to use tutorial (yes, I know but... it's so boring to do)
+* Improve model package to provide a model library to manage all you models
 
 ## A word about the project
 This project is in a beta state. After developing what I thought it was the main core of the framework I am releasing it so that everyone can give it a try and, most important, ptovide some feedback!
