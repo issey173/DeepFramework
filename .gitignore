@@ -16,3 +16,4 @@
 
 ## Tests
 /.cache/
+/.coverage*
