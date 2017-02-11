@@ -46,9 +46,68 @@ This framework has been uploaded to PyPI. For an easy install:
 
 `pip install DeepFramework`
 
+## Getting started
+
+In your own project you will probably use two main classes: `Dataset` and `Model`. Their names clearly specify what are they for, so let's see how to use them in a toy example.
+
+First you will need a dataset holding your train set, validation set or test set. The `Dataset` class provides you with an easy to use interface and some helper methods so that you 
+don't have to implement everything by yourself. A dataset is basically a collection of `Sample`. Each sample holds the input features and optionally the associated label/output.
+This is how you creat such samples and dataset:
+
+```python
+from dframe.dataset.sample import Sample
+from dframe.dataset.dataset import Dataset
+
+# Create a Dataset with a single sample that in turn has 3 input features and a single output
+dataset = Dataset([Sample([1, 2, 3], 4)])
+
+# You can add samples a posteriori
+dataset.add(Sample([5, 6, 7], 8))
+
+# Now you can get the input matrix for example
+X = dataset.get_input()
+y = dataset.get_output()
+
+# A batch generator is already implemented and ready to use so you can easily feed your model with batches
+# You only need to pass this function execution
+dataset.batch_generator(batch_size=256)     # Pass this to the model
+```
+
+Now it is time to create your model. You just need to create a class that extends from `Model` and implement its abstract methods:
+
+```python
+from dframe.model.model import Model
+
+class MyModel(Model):
+    def __init__(self):
+        # Your initialization goes here. Typically you can add the model definition here. In the new version that wil come soon, a build method is added to the interface
+        # so that you can add there your model architecture definition and compilation
+        print 'Hello world!'
+        
+    def train(self, dataset):
+        # Logic to train the model. You will typically use a DL library for that. Here you can use dataset.batch_generator to yield a batch of data
+        print 'Training...'
+
+    def validate(self, dataset):
+        print 'Validating...'
+
+    def test(self, dataset):
+        print 'Testing...'
+
+    def predict(self, sample):
+        print 'Predict output for sample'
+```
+
+Finally you just need to pass the dataset to the model to train it:
+
+```python
+model = MyModel()
+model.train(dataset)
+```
+
 ## Next features/TODOs
 
-* More documentation and how to use tutorial (yes, I know but... it's so boring to do)
+* More documentation and how to use tutorial (yes, I know but... it's so boring to do). Working on some Jupyter notebooks
 * Improve model package to provide a model library to manage all your models
 
 ## A word about the project
