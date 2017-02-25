@@ -20,12 +20,12 @@ class Pipeline(PackageProcessor):
         """Creates a Pipeline object.
 
         Args:
-            core_classes_map (list[dict]): Each element in the list corresponds to a Core. The element must be a
+            :param list[dict] core_classes_map: Each element in the list corresponds to a Core. The element must be a
                 dictionary with the key Pipeline.KEY_CLASS and value the class that should be instantiated (the Core
                 subclass). You can provide arguments to the constructor using the key Pipeline.KEY_KWARGS.
         """
 
-        self.input_pipe, self.output_pipe = self._construct_pipes(core_classes_map)
+        self.input_pipe, self.output_pipe = self.__construct_pipes(core_classes_map)
         # Instantiate the core classes, connecting them with the created pipes
         self.cores = [core_class[self.KEY_CLASS](**core_class[self.KEY_KWARGS]) for core_class in core_classes_map]
         self.started = False
@@ -51,7 +51,7 @@ class Pipeline(PackageProcessor):
         After stopping the pipeline, you need to start it again in order to process more packages.
 
         Args:
-            block (bool): Either if the stop method should be blocking or not. If True, the method will block the
+            :param bool block: Either if the stop method should be blocking or not. If True, the method will block the
                 calling process until all cores are stopped.
         """
 
@@ -85,7 +85,7 @@ class Pipeline(PackageProcessor):
         return self.results.pop(package_id, None)
 
     @staticmethod
-    def _construct_pipes(core_classes_map):
+    def __construct_pipes(core_classes_map):
         """Creates all the pipes needed to connect the cores"""
 
         # Create the first pipe

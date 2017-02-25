@@ -61,11 +61,11 @@ class Dataset(IO):
         overhead with large datasets.
 
         Args:
-            axis_samples (bool): If true, the first axis of the returned array will be the sample index (input[0]
+            :param bool axis_samples: If true, the first axis of the returned array will be the sample index (input[0]
                 will be the inputs of the first sample). Otherwise, the first axis will be the input (input[0] will be
                 a list with the first input of all samples)
-            offset (int): The offset of the chunk of dataset to retrieve the input from. Default is 0
-            num_elems (int): The size of the chunk. If not specified, it will be all the elements from the offset until
+            :param int offset: The offset of the chunk of dataset to retrieve the input from. Default is 0
+            :param int num_elems: The size of the chunk. If not specified, it will be all the elements from the offset until
                 the end. This will also be the maximum, if more than len-offset elements are specified
         """
 
@@ -101,11 +101,11 @@ class Dataset(IO):
         overhead with large datasets.
 
         Args:
-            axis_samples (bool): If true, the first axis of the returned array will be the sample index (output[0]
+            :param bool axis_samples: If true, the first axis of the returned array will be the sample index (output[0]
                 will be the outputs of the first sample). Otherwise, the first axis will be the output (output[0] will
                 be a list with the first output of all samples)
-            offset (int): The offset of the chunk of dataset to retrieve the input from. Default is 0
-            num_elems (int): The size of the chunk. If not specified, it will be all the elements from the offset until
+            :param int offset: The offset of the chunk of dataset to retrieve the input from. Default is 0
+            :param int num_elems: The size of the chunk. If not specified, it will be all the elements from the offset until
                 the end. This will also be the maximum, if more than len-offset elements are specified
         """
 
