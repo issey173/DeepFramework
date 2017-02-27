@@ -28,6 +28,38 @@ class Value:
         pass
 
 
+class CacheValue(Value):
+    """Abstract class extending from Value, which allows its subclasses to cache the get_data values.
+
+    In order to implement it, you need to inherit from this class and add the cache_data decorator to the get_data
+    method (defined in Value), @CacheValue.cache_data.
+    Even if the function is decorated, only if the attribute cache is set to True the data will be stored
+    """
+
+    __metaclass__ = ABCMeta
+
+    def __init__(self, cache=True):
+        self.cache = cache
+        self._cached_data = None
+
+    @staticmethod
+    def cache_data(f):
+        """Decorator function for the get_data method.
+
+        It will store the returned values of get_data in its cache if specified through self.cache.
+        """
+
+        def wrapper(self, *args, **kwargs):
+            if self.cache is False:
+                return f(self, *args, **kwargs)
+            else:
+                if self._cached_data is None:
+                    self._cached_data = f(self, *args, **kwargs)
+                return self._cached_data
+
+        return wrapper
+
+
 class Sample(IO):
     """Base class to hold the information of an example/sample in a dataset"""
 
